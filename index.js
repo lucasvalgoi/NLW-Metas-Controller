@@ -1,4 +1,4 @@
-const { select, input } = require('@inquirer/prompts')
+const { select, input, checkbox } = require('@inquirer/prompts')
 
 let meta = {
     value: "Correr 3km",
@@ -16,6 +16,35 @@ const cadastrarMeta = async () => {
     }
 
     metas.push({ value: meta, checked: false })
+}
+
+const listarMetas = async () => {
+    const respostas = await checkbox({
+        message: "Use as setas para mudar para outra meta, o espeço para marcar ou desmarcar e o Enter para encerrar essa etapa",
+        choices: [...metas],
+        instructions: false,
+    })
+
+    if (respostas.length == 0) {
+        console.log("Nenhuma meta foi selecionada!")
+        return
+    }
+
+    //desmarcando todas as metas
+    metas.forEach((m) => {
+        m.checked = false
+    })
+
+    //marcando as metas que são selecionadas
+    respostas.forEach((resposta) => {
+        const meta = metas.find((m) => {
+            return m.value == resposta
+        })
+
+        meta.checked = true
+    })
+
+    console.log("Meta(s) marcadas como concluída(s)")
 }
 
 // O uso da Async function é de grande importânica para informar ao computador que ao invés de sair rodando todo o laço While enquanto a condição for True, será necessário esperar o usuário selecionar alguma das opções 
@@ -48,7 +77,8 @@ const start = async () => {
                 console.log(metas)
                 break;
             case "listar":
-                console.log("Bora Listar")
+                await listarMetas()
+                console.log(metas)
                 break;
             case "sair":
                 console.log("Até mais!")
