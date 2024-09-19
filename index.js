@@ -29,15 +29,15 @@ const listarMetas = async () => {
         instructions: false,
     })
 
-    if (respostas.length == 0) {
-        console.log("Nenhuma meta foi selecionada!")
-        return
-    }
-
     //desmarcando TODAS as metas
     metas.forEach((m) => {
         m.checked = false
     })
+
+    if (respostas.length == 0) {
+        console.log("Nenhuma meta foi selecionada!")
+        return
+    }
 
     //marcando as metas que são selecionadas
     respostas.forEach((resposta) => {
@@ -104,18 +104,15 @@ const start = async () => {
         switch (opcao) {
             case "cadastrar":
                 await cadastrarMeta()
-                console.log(metas)
                 break;
             case "listar":
                 await listarMetas()
-                console.log(metas)
                 break;
             case "realizadas":
                 await metasRealizadas()
                 break;
             case "abertas":
                 await metasAbertas()
-                console.log(metas)
                 break;
             case "sair":
                 console.log("Até mais!")
