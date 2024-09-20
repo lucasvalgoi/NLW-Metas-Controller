@@ -42,6 +42,12 @@ const cadastrarMeta = async () => {
 }
 
 const listarMetas = async () => {
+    //dando retorno a função se caso ainda não há metas existentes
+    if (metas.length == 0) {
+        mensagem = "Ainda não existem metas!"
+        return
+    }
+
     const respostas = await checkbox({
         message: "Use as setas para mudar para outra meta, o espeço para marcar ou desmarcar e o Enter para encerrar essa etapa",
         choices: [...metas],
@@ -71,6 +77,11 @@ const listarMetas = async () => {
 }
 
 const metasRealizadas = async () => {
+    if (metas.length == 0) {
+        mensagem = "Ainda não existem metas!"
+        return
+    }
+
     const realizadas = metas.filter((meta) => {
         return meta.checked
     })
@@ -91,6 +102,11 @@ const metasRealizadas = async () => {
 
 //para fazer essa função, fica mais fácil pensar que ela é o "inverso" da função das metas Realizadas
 const metasAbertas = async () => {
+    if (metas.length == 0) {
+        mensagem = "Ainda não existem metas!"
+        return
+    }
+
     const abertas = metas.filter((meta) => {
         return !meta.checked
         //fazendo uma comparação para que retorne apenas o que for DIFERENTE de True (False), tornando a comparação em verdadeira, já que nesse caso a "meta.checked" é false, o valor booleano dessa operação é invertido.
@@ -108,6 +124,11 @@ const metasAbertas = async () => {
 }
 
 const deletarMetas = async () => {
+    if (metas.length == 0) {
+        mensagem = "Ainda não existem metas!"
+        return
+    }
+
     const metasDesmarcadas = metas.map((meta) => {
         return { value: meta.value, checked: false }
     })
