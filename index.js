@@ -52,7 +52,7 @@ const listarMetas = async () => {
 }
 
 const metasRealizadas = async () => {
-    const realizadas= metas.filter((meta) => {
+    const realizadas = metas.filter((meta) => {
         return meta.checked
     })
 
@@ -62,11 +62,29 @@ const metasRealizadas = async () => {
     }
 
     await select({
-        message: "Metas Realizadas:",
+        message: "Metas Realizadas:" + realizadas.length,
         choices: [...realizadas]
     })
 
-    console.log(realizadas)
+    // console.log(realizadas)
+}
+
+//para fazer essa função, fica mais fácil pensar que ela é o "inverso" da função das metas Realizadas
+const metasAbertas = async () => {
+    const abertas = metas.filter((meta) => {
+        return !meta.checked
+        //fazendo uma comparação para que retorne apenas o que for DIFERENTE de True (False), tornando a comparação em verdadeira, já que nesse caso a "meta.checked" é false, o valor booleano dessa operação é invertido.
+    })
+
+    if (abertas.length == 0) {
+        console.log("Não há nenhuma meta aberta!")
+        return
+    }
+
+    await select({
+        message: "Metas Abertas:" + abertas.length,
+        choices: [...abertas]
+    })
 }
 
 // O uso da Async function é de grande importânica para informar ao computador que ao invés de sair rodando todo o laço While enquanto a condição for True, será necessário esperar o usuário selecionar alguma das opções 
