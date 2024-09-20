@@ -1,5 +1,7 @@
 const { select, input, checkbox } = require('@inquirer/prompts')
 
+let mensagem = "Bem vindo(a) ao Gerenciador de Metas!"
+
 //as metas sempre começarão com o 'checked: false' pois eu ainda não concluí elas
 //exemplo de meta unitária (como um objeto)
 let meta = {
@@ -15,13 +17,15 @@ const cadastrarMeta = async () => {
 
     //será anilisado se o tamanho da variável meta (o que será escrito pelo usuário) for == 0, então será emitido a mensagem e a função acabará
     if(meta.length == 0) {
-        console.log("A meta não pode ser vazia!")
+        mensagem = "A meta não pode ser vazia!"
         return
     }
 
     metas.push({ value: meta, checked: false })
 
-    console.log(metas)
+    mensagem = metas
+
+    mensagem = "Meta cadastrada com sucesso!"
 }
 
 const listarMetas = async () => {
@@ -37,7 +41,7 @@ const listarMetas = async () => {
     })
 
     if (respostas.length == 0) {
-        console.log("Nenhuma meta foi selecionada!")
+        mensagem = "Nenhuma meta foi selecionada!"
         return
     }
 
@@ -50,7 +54,7 @@ const listarMetas = async () => {
         meta.checked = true
     })
 
-    console.log("Meta(s) marcadas como concluída(s)")
+    mensagem = "Meta(s) marcadas como concluída(s)"
 }
 
 const metasRealizadas = async () => {
@@ -59,7 +63,7 @@ const metasRealizadas = async () => {
     })
 
     if (realizadas.length == 0) {
-        console.log("Não há nenhuma meta realizada!")
+        mensagem = "Não há nenhuma meta realizada!"
         return
     }
 
@@ -68,7 +72,8 @@ const metasRealizadas = async () => {
         choices: [...realizadas]
     })
 
-    // console.log(realizadas)
+    mensagem = "Todas as metas foram realizadas com sucesso!"
+
 }
 
 //para fazer essa função, fica mais fácil pensar que ela é o "inverso" da função das metas Realizadas
@@ -79,7 +84,7 @@ const metasAbertas = async () => {
     })
 
     if (abertas.length == 0) {
-        console.log("Não há nenhuma meta aberta!")
+        mensagem = "Não há nenhuma meta aberta!"
         return
     }
 
@@ -95,13 +100,13 @@ const deletarMetas = async () => {
     })
 
     const deletarItem = await checkbox({
-        message: "Selecione o item que deseja deletar",
+        message: "Selecione a meta que deseja deletar",
         choices: [...metasDesmarcadas],
         instructions: false,
     })
 
     if (deletarItem.length == 0) {
-        console.log("Não há nenhum item para ser deletado!")
+        mensagem = "Não há nenhuma meta para ser deletado!"
         return
     }
 
@@ -112,14 +117,25 @@ const deletarMetas = async () => {
         })
     })
 
-    console.log("Meta(s) deletada(s) com sucesso!")
+    mensagem = "Meta(s) deletada(s) com sucesso!"
 
+}
+
+const mostrarMensagemConsole = () => {
+    console.clear();
+
+    if (mensagem != "") {
+        console.log(mensagem)
+        console.log("")
+        mensagem = ""
+    }
 }
 
 // O uso da Async function é de grande importânica para informar ao computador que ao invés de sair rodando todo o laço While enquanto a condição for True, será necessário esperar o usuário selecionar alguma das opções 
 const start = async () => {
     
     while (true) {
+        mostrarMensagemConsole()
 
         const opcao = await select({
             message: "Menu >",

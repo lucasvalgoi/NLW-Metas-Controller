@@ -6,4 +6,4 @@
     - [x] Metas não realizadas
 - [x] Marcar/Desmarcar metas realizadas
 - [x] Remover metas
-- Sistema de mensagens
+- [x] Sistema de mensagens (variável de controle)
