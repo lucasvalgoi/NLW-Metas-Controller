@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "value": "Preparar almoço",
+    "checked": true
+  },
+  {
+    "value": "Lavar a louça",
+    "checked": false
+  },
+  {
+    "value": "Ler por 20min",
+    "checked": true
+  },
+  {
+    "value": "Estudar por 2h",
+    "checked": false
+  }
+]
