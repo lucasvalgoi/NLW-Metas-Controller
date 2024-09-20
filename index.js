@@ -1,16 +1,29 @@
 const { select, input, checkbox } = require('@inquirer/prompts')
+const fs = require("fs").promises
 
 let mensagem = "Bem vindo(a) ao Gerenciador de Metas!"
 
 //as metas sempre começarão com o 'checked: false' pois eu ainda não concluí elas
 //exemplo de meta unitária (como um objeto)
-let meta = {
-    value: "Correr 3km",
-    checked: false,
-}
 
 // exemplo de uma meta como um array de objetos
-let metas = [ meta ]
+let metas
+
+//uso do fs para procurar o arquivo das metas, com a função fo fs ".readFile()", ler e transformá-lo de JSON para um array
+const carregarMetas = async () => {
+    try {
+        const dados = await fs.readFile("metas.json", "utf-8")
+        metas = JSON.parse(dados)
+    }
+    catch(erro) {
+        metas = []
+    }
+}
+
+//com a função ".writeFile()" do fs usamos para escrever as metas e transformá-las de array para JSON
+const salvarMetas = async () => {
+    await fs.writeFile("metas.json", JSON.stringify(metas, null, 2))
+}
 
 const cadastrarMeta = async () => {
     const meta = await input({message: "Digite a meta: "})
@@ -133,9 +146,11 @@ const mostrarMensagemConsole = () => {
 
 // O uso da Async function é de grande importânica para informar ao computador que ao invés de sair rodando todo o laço While enquanto a condição for True, será necessário esperar o usuário selecionar alguma das opções 
 const start = async () => {
-    
+    await carregarMetas()
+
     while (true) {
         mostrarMensagemConsole()
+        await salvarMetas()
 
         const opcao = await select({
             message: "Menu >",
